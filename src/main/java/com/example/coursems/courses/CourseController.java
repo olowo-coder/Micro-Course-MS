@@ -1,18 +1,29 @@
 package com.example.coursems.courses;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/course")
+@RefreshScope
 public class CourseController {
     private final CourseService courseService;
+
+    @Value("${message:default message}")
+    private String message;
 
     @Autowired
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
+    }
+
+    @GetMapping("/message")
+    public String message(){
+        return message;
     }
 
     @GetMapping("/all")
